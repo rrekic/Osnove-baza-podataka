@@ -1,0 +1,146 @@
+1;
+SELECT
+e.first_name || ' ' || e.last_name AS "Naziv zaposlenog",
+e.department_id AS "Sifra odjela",
+d.department_name AS "Departman"
+FROM employees e, departments d
+WHERE e.department_id=d.department_id;
+
+ili;
+SELECT
+e.first_name,e.last_name,e.department_id,d.department_name
+FROM employees e
+INNER JOIN departments d ON e.department_id=d.department_id;
+
+2;
+SELECT DISTINCT
+j.job_title AS Posao
+FROM employees e, jobs j
+WHERE e.job_id=j.job_id AND e.department_id=30;
+
+ilii;
+SELECT DISTINCT
+j.job_title Posao
+FROM employees e
+INNER JOIN jobs j ON e.job_id=j.job_id
+WHERE e.department_id=30;
+
+3;
+SELECT
+e.first_name || ' ' || e.last_name AS "Naziv zaposlenog",
+d.department_name AS Odjel,
+l.city AS lokacija
+FROM employees e, locations l, departments d
+WHERE e.department_id=d.department_id AND l.location_id=d.location_id AND e.commission_pct IS NULL;
+
+ili;
+
+SELECT
+e.first_name || ' ' || e.last_name AS "Naziv zaposlenog",
+d.department_name AS Odjel,
+l.city AS lokacija
+FROM employees e
+INNER JOIN departments d ON e.department_id=d.department_id
+INNER JOIN locations l ON l.location_id=d.location_id
+WHERE e.commission_pct IS NULL ;
+
+4;
+SELECT
+e.first_name ime, e.last_name prezime, d.department_name odjel
+FROM employees e, departments d
+WHERE e.department_id=d.department_id AND e.first_name LIKE '%a%';
+
+ili;
+SELECT
+e.first_name ime, e.last_name prezime, d.department_name odjel
+FROM employees e
+INNER JOIN departments d ON e.department_id=d.department_id
+WHERE e.first_name LIKE '%a%';
+
+5;
+SELECT
+e.first_name || ' ' || e.last_name AS Zaposleni,
+j.job_title AS Posao,
+d.department_id AS Brojodjela,
+d.department_name AS Odjel
+FROM employees e, departments d, jobs j, locations l
+WHERE e.department_id=d.department_id AND e.job_id=j.job_id AND d.location_id=l.location_id AND l.city='Dallas';
+
+6;
+SELECT
+e.first_name || ' ' || e.last_name AS "Naziv zaposlenog",
+e.employee_id AS "Broj zaposlenog",
+m.first_name || ' ' || m.last_name AS "Naziv sefa",
+m.employee_id AS "Broj sefa",
+l.city AS "Grad sefa"
+FROM employees e
+INNER JOIN employees m ON e.manager_id=m.employee_id
+INNER JOIN departments d ON d.department_id=m.department_id
+INNER JOIN locations l ON l.location_id=d.location_id  ;
+
+
+ili;
+SELECT
+e.first_name || ' ' || e.last_name AS "Naziv zaposlenog",
+e.employee_id AS "Broj zaposlenog",
+m.first_name || ' ' || m.last_name AS "Naziv sefa",
+m.employee_id AS "Broj sefa",
+l.city AS "Grad sefa"
+FROM employees e,employees m, departments d,locations l
+WHERE e.manager_id=m.employee_id  AND m.department_id=d.department_id AND d.location_id=l.location_id;
+
+7;
+SELECT
+e.first_name || ' ' || e.last_name AS "Naziv zaposlenog",
+e.employee_id AS "Broj zaposlenog",
+m.first_name || ' ' || m.last_name AS "Naziv sefa",
+m.employee_id AS "Broj sefa",
+l.city AS "Grad sefa"
+FROM employees e,employees m, departments d,locations l
+WHERE e.manager_id=m.employee_id(+)  AND m.department_id=d.department_id(+) AND d.location_id=l.location_id(+);
+
+8;
+SELECT e2.first_name || ' ' || e2.last_name "Zaposlenik", e.department_id "Odjel", e.first_name || ' ' || e.last_name "Drugi zaposlenik iz odjela"
+FROM employees e, employees e2
+WHERE e.department_id = e2.department_id AND e2.employee_id <> e.employee_id
+ORDER BY e.department_id;
+
+9;
+SELECT
+e.first_name || ' ' || e.last_name AS "Naziv zaposlenog",
+j.job_title AS Posao,
+d.department_name AS Odjel,
+e.salary AS Plata,
+j.min_salary, j.max_salary
+FROM employees e, departments d, jobs j
+WHERE e.job_id=j.job_id AND e.department_id=d.department_id AND
+e.salary * (1 + Nvl(e.commission_pct, 0)) NOT BETWEEN j.min_salary AND j.max_salary;
+
+10;
+SELECT
+    e.first_name || ' ' || e.last_name AS "Naziv zaposlenog",
+    e.hire_date
+FROM employees e
+INNER JOIN employees e2 ON e.employee_id<>e2.employee_id
+WHERE e2.last_name='Blake' AND e.hire_date>e2.hire_date;
+
+11;
+SELECT
+    e.first_name || ' ' || e.last_name AS "Naziv zaposlenog",
+    e.hire_date AS DatumZaposlenja,
+    m.first_name || ' ' || m.last_name AS "Naziv sefa",
+    m.hire_date AS DatumZaposlenjaSefa
+    FROM employees e, employees m
+    WHERE e.manager_id=m.employee_id AND e.hire_date<m.hire_date;
+
+
+
+
+
+
+
+
+
+
+
+
